@@ -202,11 +202,7 @@ Backend.app = function(){
           // We select the first form in the dom
           var form = el.select('form[target=ajax-iframe]').first();
 
-          // We need this for IE8
-          var formId = Ext.id(form, 'ajax-form-');
-
           var tabConfig = {
-            applyTo: formId,
             activeTab: activeTab,
             border:false,
             items: items,
@@ -216,19 +212,36 @@ Backend.app = function(){
             defaults: { autoScroll:true, layout:'fit' }
           };
 
+					// only do the applyTo if there is a form
+					if (form != null) {
+	          // We need this for IE8
+	          var formId = Ext.id(form, 'ajax-form-');
+						tabConfig['applyTo'] = formId;
+					};
+
           if (this.toolbar()){
-            Ext.apply(tabConfig, {
-              bbar: [{ 
-                text: Backend.locale.buttons.back, 
-                cls: 'x-btn-text-icon back', 
-                handler: Backend.app.back 
-              }, '->',{ 
-                text: Backend.locale.buttons.save, 
-                cls: 'x-btn-text-icon save', 
-                handler: Backend.app.submitForm 
-              }]
-            });
-          }
+						if (form != null) {
+	           Ext.apply(tabConfig, {
+	              bbar: [{ 
+	                text: Backend.locale.buttons.back, 
+	                cls: 'x-btn-text-icon back', 
+	                handler: Backend.app.back 
+	              }, '->',{ 
+	                text: Backend.locale.buttons.save, 
+	                cls: 'x-btn-text-icon save', 
+	                handler: Backend.app.submitForm 
+	              }]
+	            });
+						} else {
+	           Ext.apply(tabConfig, {
+	              bbar: [{ 
+	                text: Backend.locale.buttons.back, 
+	                cls: 'x-btn-text-icon back', 
+	                handler: Backend.app.back 
+	              }, '->']
+	            });
+						};
+           }
 
           // We can build the tabPanel
           this.tabPanel = new Ext.TabPanel(tabConfig);
