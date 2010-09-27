@@ -76,6 +76,9 @@ function edit(){
   Backend.app.load('<%= @edit_path || @base_path %>/'+<%= @sm %>.getSelected().id+'/edit');
 }
 <% end %>
+function show(){
+  Backend.app.load('<%= @show_path || @base_path %>/'+<%= @sm %>.getSelected().id);
+}
 <% if @ttbar_delete %>
 function remove(){
   Ext.Msg.confirm(Backend.locale.messages.confirm.title, String.format(Backend.locale.messages.confirm.message, <%= @sm %>.getCount()), function(btn, text){
